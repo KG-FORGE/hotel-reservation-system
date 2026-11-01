@@ -54,16 +54,27 @@ public class AdminLoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        Optional<AdminUser> adminOpt = authService.authenticate(username, password);
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            request.setAttribute("errorMessage", "Username and password are required.");
+            request.setAttribute("enteredUsername", username != null ? username.trim() : "");
+            request.setAttribute("pageTitle", "Admin Sign In | KG Grand Hotel");
+            request.getRequestDispatcher("/WEB-INF/views/admin-login.jsp").forward(request, response);
+            return;
+        }
+
+        Optional<AdminUser> adminOpt = authService.authenticate(username.trim(), password);
 
         if (adminOpt.isPresent()) {
-            // Invalidate any previous session and create fresh secure session
             HttpSession oldSession = request.getSession(false);
-            if (oldSession != null) {
-                oldSession.invalidate();
-            }
+            String existingCsrf = (oldSession != null) ? (String) oldSession.getAttribute("csrfToken") : null;
 
+            if (oldSession != null) {
+                request.changeSessionId();
+            }
             HttpSession session = request.getSession(true);
+            if (existingCsrf != null) {
+                session.setAttribute("csrfToken", existingCsrf);
+            }
             session.setAttribute(AdminAuthFilter.ADMIN_SESSION_KEY, adminOpt.get());
             // Session timeout 30 minutes
             session.setMaxInactiveInterval(30 * 60);
@@ -71,7 +82,7 @@ public class AdminLoginServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else {
             request.setAttribute("errorMessage", "Invalid administrator username or password.");
-            request.setAttribute("enteredUsername", username);
+            request.setAttribute("enteredUsername", username.trim());
             request.setAttribute("pageTitle", "Admin Sign In | KG Grand Hotel");
             request.getRequestDispatcher("/WEB-INF/views/admin-login.jsp").forward(request, response);
         }

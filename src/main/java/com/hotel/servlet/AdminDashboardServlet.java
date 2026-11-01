@@ -37,6 +37,18 @@ public class AdminDashboardServlet extends HttpServlet {
         request.setAttribute("roomsCount", roomService.getAllRooms().size());
         request.setAttribute("pageTitle", "Admin Dashboard | KG Grand Hotel");
 
+        String msg = request.getParameter("msg");
+        if ("cancelled".equals(msg)) {
+            request.setAttribute("successMessage", "Reservation status successfully updated to Cancelled.");
+        } else if ("deleted".equals(msg)) {
+            request.setAttribute("successMessage", "Reservation record has been permanently deleted from storage.");
+        }
+
+        String errorParam = request.getParameter("error");
+        if (errorParam != null && !errorParam.trim().isEmpty()) {
+            request.setAttribute("errorMessage", errorParam.trim());
+        }
+
         request.getRequestDispatcher("/WEB-INF/views/admin-dashboard.jsp").forward(request, response);
     }
 }

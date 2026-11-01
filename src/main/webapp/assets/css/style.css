@@ -950,3 +950,125 @@ a {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   KG Grand Hotel - Custom Confirmation Modal Dialog
+   ========================================================================== */
+.kg-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(16, 26, 44, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    padding: 20px;
+}
+
+.kg-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.kg-modal-dialog {
+    background: #FFFFFF;
+    border-radius: var(--radius-md, 12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+    transform: translateY(-16px) scale(0.96);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--border-color, #E2E8F0);
+}
+
+.kg-modal-overlay.active .kg-modal-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.kg-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 24px 24px 16px 24px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.kg-modal-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+.kg-modal-title {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy, #101A2C);
+    margin: 0;
+}
+
+.kg-modal-body {
+    padding: 20px 24px;
+    color: var(--slate-dark, #334155);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.kg-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px 20px 24px;
+    background-color: #FAFAF8;
+    border-top: 1px solid #F1F5F9;
+}
+
+.kg-modal-btn-cancel {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm, 6px);
+    border: 1px solid #CBD5E1;
+    background-color: #FFFFFF;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kg-modal-btn-cancel:hover {
+    background-color: #F1F5F9;
+    color: #0F172A;
+}
+
+.kg-modal-btn-confirm {
+    padding: 10px 22px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm, 6px);
+    border: none;
+    background-color: #DC2626;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
+}
+
+.kg-modal-btn-confirm:hover {
+    background-color: #B91C1C;
+    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.35);
+}

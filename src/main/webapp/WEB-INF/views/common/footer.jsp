@@ -70,6 +70,6 @@
 </footer>
 
 <!-- Scripts -->
-<script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/main.js?v=1.0.1"></script>
 </body>
 </html>

@@ -196,6 +196,17 @@
     border: 1px solid var(--border-color);
 }
 
+.btn-outline-danger {
+    background-color: transparent;
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--error);
+    color: var(--white);
+}
+
 @media (max-width: 768px) {
     .admin-layout {
         flex-direction: column;

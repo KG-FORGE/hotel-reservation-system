@@ -108,4 +108,35 @@ public class XMLStorageTest {
         assertEquals(ReservationStatus.CONFIRMED, retrieved.get().getStatus());
         assertEquals("High floor requested", retrieved.get().getSpecialRequests());
     }
+
+    @Test
+    @DisplayName("Permanently delete reservation removes target node and preserves remaining records")
+    void testDeleteReservation() {
+        Reservation res1 = new Reservation("BK100001", "Guest One", "g1@example.com", "9876543210",
+                "R001", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 1,
+                1500.00, 3000.00, "", ReservationStatus.CONFIRMED, LocalDateTime.now());
+        Reservation res2 = new Reservation("BK100002", "Guest Two", "g2@example.com", "9876543211",
+                "R002", LocalDate.now().plusDays(5), LocalDate.now().plusDays(7), 2,
+                2500.00, 5000.00, "", ReservationStatus.CONFIRMED, LocalDateTime.now());
+
+        storage.saveReservation(res1);
+        storage.saveReservation(res2);
+        assertEquals(2, storage.getAllReservations().size());
+
+        // Delete res1
+        boolean deleted = storage.deleteReservation("BK100001");
+        assertTrue(deleted);
+
+        // Verify res1 is gone
+        assertTrue(storage.getReservationById("BK100001").isEmpty());
+
+        // Verify res2 is completely intact
+        Optional<Reservation> remaining = storage.getReservationById("BK100002");
+        assertTrue(remaining.isPresent());
+        assertEquals("Guest Two", remaining.get().getCustomerName());
+        assertEquals(1, storage.getAllReservations().size());
+
+        // Deleting non-existent ID returns false
+        assertFalse(storage.deleteReservation("BK999999"));
+    }
 }

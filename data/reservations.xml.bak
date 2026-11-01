@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reservations>
+        
+    
+    <reservation>
+                
+        <bookingId>BK100001</bookingId>
+                
+        <customerName>Vikram Malhotra</customerName>
+                
+        <email>vikram@example.com</email>
+                
+        <phone>+91 98765 43210</phone>
+                
+        <roomId>R002</roomId>
+                
+        <checkIn>2026-11-05</checkIn>
+                
+        <checkOut>2026-11-08</checkOut>
+                
+        <guests>2</guests>
+                
+        <pricePerNight>2500.00</pricePerNight>
+                
+        <totalPrice>7500.00</totalPrice>
+                
+        <specialRequests/>
+                
+        <status>CONFIRMED</status>
+                
+        <createdAt>2026-11-01T15:22:51.346616</createdAt>
+            
+    </reservation>
+    
+    <reservation>
+        <bookingId>BK100002</bookingId>
+        <customerName>samarth kumar</customerName>
+        <email>samarthk@gmail.com</email>
+        <phone>9006110905</phone>
+        <roomId>R006</roomId>
+        <checkIn>2026-11-01</checkIn>
+        <checkOut>2026-11-03</checkOut>
+        <guests>2</guests>
+        <pricePerNight>8000.00</pricePerNight>
+        <totalPrice>16000.00</totalPrice>
+        <specialRequests>A beautiful girl with bouquet</specialRequests>
+        <status>CONFIRMED</status>
+        <createdAt>2026-11-01T15:31:42.587738</createdAt>
+    </reservation>
+</reservations>

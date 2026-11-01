@@ -250,6 +250,23 @@ public class ReservationService {
         }
     }
 
+    /**
+     * Admin permanent deletion of a reservation record from XML storage.
+     * Synchronized to ensure thread-safety with reservation creation and cancellation.
+     */
+    public boolean deleteReservation(String bookingId) {
+        if (bookingId == null || bookingId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Booking reference is required for deletion.");
+        }
+        synchronized (bookingLock) {
+            Optional<Reservation> resOpt = xmlStorage.getReservationById(bookingId.trim());
+            if (resOpt.isEmpty()) {
+                throw new IllegalArgumentException("No reservation found with reference ID: " + bookingId.trim());
+            }
+            return xmlStorage.deleteReservation(bookingId.trim());
+        }
+    }
+
     public List<Reservation> getAllReservations() {
         List<Reservation> list = xmlStorage.getAllReservations();
         Map<String, Room> roomMap = xmlStorage.getAllRooms().stream()

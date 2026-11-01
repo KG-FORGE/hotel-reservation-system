@@ -341,6 +341,55 @@ public class XMLStorage {
         }
     }
 
+    /**
+     * Permanently deletes a reservation by booking ID from XML storage.
+     * Thread-safe with write lock and atomic file write.
+     *
+     * @param bookingId the unique reference ID of the reservation to remove
+     * @return true if found and deleted, false if no matching reservation was found
+     */
+    public boolean deleteReservation(String bookingId) {
+        if (bookingId == null || bookingId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Booking reference cannot be null or empty.");
+        }
+
+        reservationsLock.writeLock().lock();
+        try {
+            File file = AppConfig.getReservationsFile();
+            if (!file.exists() || file.length() == 0) {
+                return false;
+            }
+
+            Document doc = XMLUtil.parseFile(file);
+            Element root = doc.getDocumentElement();
+            NodeList resNodes = root.getElementsByTagName("reservation");
+            Element targetElement = null;
+
+            for (int i = 0; i < resNodes.getLength(); i++) {
+                Element el = (Element) resNodes.item(i);
+                String bId = XMLUtil.getChildText(el, "bookingId");
+                if (bId.equalsIgnoreCase(bookingId.trim())) {
+                    targetElement = el;
+                    break;
+                }
+            }
+
+            if (targetElement == null) {
+                return false;
+            }
+
+            root.removeChild(targetElement);
+            XMLUtil.writeDocumentAtomically(doc, file);
+            LOGGER.info("Successfully deleted reservation " + bookingId + " from XML storage.");
+            return true;
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Failed to delete reservation: " + bookingId, e);
+            throw new RuntimeException("Failed to delete reservation from XML storage: " + e.getMessage(), e);
+        } finally {
+            reservationsLock.writeLock().unlock();
+        }
+    }
+
     public synchronized String generateNextBookingId() {
         reservationsLock.readLock().lock();
         try {
@@ -370,12 +419,35 @@ public class XMLStorage {
         String phone = XMLUtil.getChildText(el, "phone");
         String roomId = XMLUtil.getChildText(el, "roomId");
 
-        LocalDate checkIn = LocalDate.parse(XMLUtil.getChildText(el, "checkIn"));
-        LocalDate checkOut = LocalDate.parse(XMLUtil.getChildText(el, "checkOut"));
+        LocalDate checkIn = null;
+        String inStr = XMLUtil.getChildText(el, "checkIn");
+        if (!inStr.isEmpty()) {
+            try { checkIn = LocalDate.parse(inStr); } catch (Exception ignored) {}
+        }
+        if (checkIn == null) checkIn = LocalDate.now();
 
-        int guests = Integer.parseInt(XMLUtil.getChildText(el, "guests"));
-        double pricePerNight = Double.parseDouble(XMLUtil.getChildText(el, "pricePerNight"));
-        double totalPrice = Double.parseDouble(XMLUtil.getChildText(el, "totalPrice"));
+        LocalDate checkOut = null;
+        String outStr = XMLUtil.getChildText(el, "checkOut");
+        if (!outStr.isEmpty()) {
+            try { checkOut = LocalDate.parse(outStr); } catch (Exception ignored) {}
+        }
+        if (checkOut == null) checkOut = checkIn.plusDays(1);
+
+        int guests = 1;
+        try {
+            guests = Integer.parseInt(XMLUtil.getChildText(el, "guests"));
+        } catch (Exception ignored) {}
+
+        double pricePerNight = 0.0;
+        try {
+            pricePerNight = Double.parseDouble(XMLUtil.getChildText(el, "pricePerNight"));
+        } catch (Exception ignored) {}
+
+        double totalPrice = 0.0;
+        try {
+            totalPrice = Double.parseDouble(XMLUtil.getChildText(el, "totalPrice"));
+        } catch (Exception ignored) {}
+
         String specialRequests = XMLUtil.getChildText(el, "specialRequests");
         ReservationStatus status = ReservationStatus.fromString(XMLUtil.getChildText(el, "status"));
 

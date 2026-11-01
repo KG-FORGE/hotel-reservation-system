@@ -105,6 +105,11 @@ public final class XMLUtil {
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "no");
 
+        if (document.getDocumentElement() != null) {
+            removeEmptyTextNodes(document.getDocumentElement());
+            document.normalizeDocument();
+        }
+
         try (OutputStream out = new FileOutputStream(tempFile)) {
             DOMSource source = new DOMSource(document);
             StreamResult result = new StreamResult(out);
@@ -171,5 +176,23 @@ public final class XMLUtil {
         element.setTextContent(textContent != null ? textContent : "");
         parent.appendChild(element);
         return element;
+    }
+
+    /**
+     * Recursively removes purely whitespace text nodes from DOM to keep serialized XML tidy.
+     */
+    public static void removeEmptyTextNodes(Node node) {
+        if (node == null) return;
+        NodeList children = node.getChildNodes();
+        for (int i = children.getLength() - 1; i >= 0; i--) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.TEXT_NODE) {
+                if (child.getTextContent() == null || child.getTextContent().trim().isEmpty()) {
+                    node.removeChild(child);
+                }
+            } else if (child.getNodeType() == Node.ELEMENT_NODE) {
+                removeEmptyTextNodes(child);
+            }
+        }
     }
 }

@@ -28,23 +28,27 @@ public class AdminAuthFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-        String path = httpRequest.getRequestURI();
-        String contextPath = httpRequest.getContextPath();
-        String relativePath = path.substring(contextPath.length());
+        String servletPath = httpRequest.getServletPath();
 
-        // Permit login endpoint without prior authentication
-        if (relativePath.equals("/admin/login")) {
+        // Permit login and logout endpoints without prior authentication
+        if ("/admin/login".equals(servletPath) || "/admin/logout".equals(servletPath)) {
             chain.doFilter(request, response);
             return;
         }
 
         HttpSession session = httpRequest.getSession(false);
-        boolean isLoggedIn = (session != null && session.getAttribute(ADMIN_SESSION_KEY) != null);
+        Object adminObj = (session != null) ? session.getAttribute(ADMIN_SESSION_KEY) : null;
+        boolean isLoggedInAdmin = (adminObj instanceof com.hotel.model.AdminUser);
 
-        if (!isLoggedIn) {
-            httpResponse.sendRedirect(contextPath + "/admin/login?error=auth_required");
+        if (!isLoggedInAdmin) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/admin/login?error=auth_required");
             return;
         }
+
+        // Prevent browser caching of sensitive administrative views
+        httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        httpResponse.setHeader("Pragma", "no-cache");
+        httpResponse.setDateHeader("Expires", 0);
 
         chain.doFilter(request, response);
     }

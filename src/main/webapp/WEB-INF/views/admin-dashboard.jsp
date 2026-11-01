@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <jsp:include page="common/header.jsp" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/admin.css?v=1.0.1">
 
 <header class="navbar">
     <div class="container nav-container">
@@ -160,17 +160,30 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <c:if test="${res.confirmed}">
-                                                <form action="${pageContext.request.contextPath}/admin/reservations" method="POST" style="display:inline;">
+                                            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: nowrap;">
+                                                <c:if test="${res.confirmed}">
+                                                    <form action="${pageContext.request.contextPath}/admin/reservations" method="POST" style="margin: 0;">
+                                                        <input type="hidden" name="_csrf" value="${csrfToken}">
+                                                        <input type="hidden" name="action" value="cancel">
+                                                        <input type="hidden" name="bookingId" value="${res.bookingId}">
+                                                        <input type="hidden" name="from" value="dashboard">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm" 
+                                                                onclick="showConfirmModal(this.closest('form'), 'Confirm Cancellation', 'Cancel reservation #${res.bookingId} for guest ${res.customerName}?', 'Yes, Cancel Reservation', '#D97706')">
+                                                            Cancel
+                                                        </button>
+                                                    </form>
+                                                </c:if>
+                                                <form action="${pageContext.request.contextPath}/admin/reservations" method="POST" style="margin: 0;">
                                                     <input type="hidden" name="_csrf" value="${csrfToken}">
-                                                    <input type="hidden" name="action" value="cancel">
+                                                    <input type="hidden" name="action" value="delete">
                                                     <input type="hidden" name="bookingId" value="${res.bookingId}">
-                                                    <button type="submit" class="btn btn-danger btn-sm" 
-                                                            data-confirm="Cancel reservation ${res.bookingId} for guest ${res.customerName}?">
-                                                        Cancel
+                                                    <input type="hidden" name="from" value="dashboard">
+                                                    <button type="button" class="btn btn-danger btn-sm" 
+                                                            onclick="showConfirmModal(this.closest('form'), 'Confirm Permanent Deletion', 'Are you sure you want to permanently delete reservation #${res.bookingId} for ${res.customerName}? This will permanently remove the record from XML storage.', 'Yes, Delete Record', '#DC2626')">
+                                                        Delete
                                                     </button>
                                                 </form>
-                                            </c:if>
+                                            </div>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -191,6 +204,6 @@
 </div>
 
 <!-- Scripts -->
-<script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/main.js?v=1.0.1"></script>
 </body>
 </html>

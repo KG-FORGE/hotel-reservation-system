@@ -254,4 +254,45 @@ public class ReservationServiceTest {
                 )
         );
     }
+
+    @Test
+    @DisplayName("Admin permanent deletion removes reservation from XML and preserves unrelated records")
+    void testAdminDeleteReservation() {
+        Reservation res1 = reservationService.createReservation(
+                "Guest A", "a@example.com", "9876543210",
+                "R001", LocalDate.now().plusDays(2), LocalDate.now().plusDays(4), 1, ""
+        );
+        Reservation res2 = reservationService.createReservation(
+                "Guest B", "b@example.com", "9876543211",
+                "R002", LocalDate.now().plusDays(5), LocalDate.now().plusDays(7), 2, ""
+        );
+
+        assertEquals(2, reservationService.getAllReservations().size());
+
+        // Delete res1
+        boolean deleted = reservationService.deleteReservation(res1.getBookingId());
+        assertTrue(deleted);
+
+        // res1 no longer exists
+        assertTrue(reservationService.getReservationById(res1.getBookingId()).isEmpty());
+
+        // res2 remains intact
+        Optional<Reservation> remaining = reservationService.getReservationById(res2.getBookingId());
+        assertTrue(remaining.isPresent());
+        assertEquals("Guest B", remaining.get().getCustomerName());
+        assertEquals(1, reservationService.getAllReservations().size());
+
+        // Attempting to delete nonexistent reservation throws IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () ->
+                reservationService.deleteReservation("BK999999")
+        );
+
+        // Attempting to delete with null or empty ID throws IllegalArgumentException
+        assertThrows(IllegalArgumentException.class, () ->
+                reservationService.deleteReservation(null)
+        );
+        assertThrows(IllegalArgumentException.class, () ->
+                reservationService.deleteReservation("   ")
+        );
+    }
 }

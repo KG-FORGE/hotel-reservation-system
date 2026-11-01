@@ -47,6 +47,13 @@ public class AdminReservationServlet extends HttpServlet {
         String msg = request.getParameter("msg");
         if ("cancelled".equals(msg)) {
             request.setAttribute("successMessage", "Reservation status successfully updated to Cancelled.");
+        } else if ("deleted".equals(msg)) {
+            request.setAttribute("successMessage", "Reservation record has been permanently deleted from storage.");
+        }
+
+        String errorParam = request.getParameter("error");
+        if (errorParam != null && !errorParam.trim().isEmpty()) {
+            request.setAttribute("errorMessage", errorParam.trim());
         }
 
         request.setAttribute("pageTitle", "Manage Reservations | KG Grand Hotel Admin");
@@ -59,18 +66,39 @@ public class AdminReservationServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         String bookingId = request.getParameter("bookingId");
+        String from = request.getParameter("from");
+        String redirectTarget = (from != null && "dashboard".equalsIgnoreCase(from.trim()))
+                ? "/admin/dashboard"
+                : "/admin/reservations";
 
-        if ("cancel".equalsIgnoreCase(action) && bookingId != null) {
+        if ("delete".equalsIgnoreCase(action)) {
+            if (bookingId == null || bookingId.trim().isEmpty()) {
+                response.sendRedirect(request.getContextPath() + redirectTarget + "?error=Booking+ID+is+required+for+deletion.");
+                return;
+            }
             try {
-                reservationService.adminCancelReservation(bookingId);
-                response.sendRedirect(request.getContextPath() + "/admin/reservations?msg=cancelled");
+                reservationService.deleteReservation(bookingId.trim());
+                response.sendRedirect(request.getContextPath() + redirectTarget + "?msg=deleted");
                 return;
             } catch (Exception e) {
-                response.sendRedirect(request.getContextPath() + "/admin/reservations?error=" + e.getMessage());
+                String errMsg = java.net.URLEncoder.encode(e.getMessage() != null ? e.getMessage() : "Failed to delete reservation", java.nio.charset.StandardCharsets.UTF_8);
+                response.sendRedirect(request.getContextPath() + redirectTarget + "?error=" + errMsg);
                 return;
             }
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/reservations");
+        if ("cancel".equalsIgnoreCase(action) && bookingId != null) {
+            try {
+                reservationService.adminCancelReservation(bookingId);
+                response.sendRedirect(request.getContextPath() + redirectTarget + "?msg=cancelled");
+                return;
+            } catch (Exception e) {
+                String errMsg = java.net.URLEncoder.encode(e.getMessage() != null ? e.getMessage() : "Failed to cancel reservation", java.nio.charset.StandardCharsets.UTF_8);
+                response.sendRedirect(request.getContextPath() + redirectTarget + "?error=" + errMsg);
+                return;
+            }
+        }
+
+        response.sendRedirect(request.getContextPath() + redirectTarget);
     }
 }

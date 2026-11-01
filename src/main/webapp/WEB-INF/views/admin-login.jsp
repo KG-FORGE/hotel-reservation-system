@@ -47,15 +47,15 @@
                 <label for="username" class="form-label">Administrator Username</label>
                 <input type="text" id="username" name="username" class="form-control" 
                        placeholder="Enter admin username" 
-                       value="<c:out value='${enteredUsername != null ? enteredUsername : "admin"}' />" 
-                       required autocomplete="username">
+                       value="<c:out value='${not empty enteredUsername ? enteredUsername : (enteredUsername != null ? \"\" : \"admin\")}' />" 
+                       autocomplete="username">
             </div>
 
             <div class="form-group" style="margin-bottom: 26px;">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control" 
                        placeholder="Enter admin password" 
-                       required autocomplete="current-password">
+                       autocomplete="current-password">
             </div>
 
             <button type="submit" class="btn btn-primary btn-block btn-lg">

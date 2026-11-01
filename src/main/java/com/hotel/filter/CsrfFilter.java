@@ -58,6 +58,12 @@ public class CsrfFilter implements Filter {
 
             // Exclude static assets or external endpoints if any, but validate all app POST actions
             if (requestToken == null || !sessionToken.equals(requestToken.trim())) {
+                String path = httpRequest.getServletPath();
+                if ("/admin/login".equals(path)) {
+                    // Gracefully redirect stale login page attempts back to login with session_expired error
+                    httpResponse.sendRedirect(httpRequest.getContextPath() + "/admin/login?error=session_expired");
+                    return;
+                }
                 httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 httpRequest.setAttribute("errorCode", HttpServletResponse.SC_FORBIDDEN);
                 httpRequest.setAttribute("errorMessage", "Security verification failed (Invalid or missing CSRF token). Please refresh the page and try again.");
