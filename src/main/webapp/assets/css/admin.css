@@ -1,0 +1,217 @@
+/* ==========================================================================
+   KG GRAND HOTEL - ADMINISTRATIVE DASHBOARD & MANAGEMENT PORTAL
+   ========================================================================== */
+
+.admin-layout {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.admin-sidebar {
+    width: 260px;
+    background-color: var(--navy);
+    color: var(--white);
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--navy-light);
+}
+
+.admin-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.admin-nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    color: #94A3B8;
+    font-size: 0.925rem;
+    font-weight: 500;
+}
+
+.admin-nav-item a:hover,
+.admin-nav-item.active a {
+    background-color: var(--navy-light);
+    color: var(--gold);
+}
+
+.admin-main {
+    flex: 1;
+    background-color: var(--ivory);
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+/* Stats Cards Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 36px;
+}
+
+.stat-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--slate);
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.stat-subtext {
+    font-size: 0.8rem;
+    color: var(--slate);
+}
+
+/* Data Table */
+.table-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.table-header-bar {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FAFAF8;
+}
+
+.table-header-title {
+    font-size: 1.15rem;
+    font-family: var(--font-serif);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    background-color: #F8F9FA;
+    color: var(--slate-dark);
+    font-weight: 600;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.admin-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--navy);
+    vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+    background-color: #FBFBF9;
+}
+
+/* Admin Login Card */
+.login-wrap {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-card {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 440px;
+    padding: 40px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* Demo Credential Notice */
+.demo-box {
+    background-color: var(--gold-light);
+    border: 1px dashed var(--gold);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    color: var(--navy);
+}
+
+.demo-box code {
+    font-weight: 600;
+    background: #FFF;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .admin-nav {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .admin-main {
+        padding: 20px;
+    }
+}

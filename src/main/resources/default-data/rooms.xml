@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rooms>
+    <room>
+        <id>R001</id>
+        <name>Standard Room</name>
+        <type>STANDARD</type>
+        <description>A thoughtfully designed, peaceful retreat featuring a plush queen-size bed, high-speed Wi-Fi, smart television, and luxury en-suite bathroom.</description>
+        <pricePerNight>1500.00</pricePerNight>
+        <capacity>2</capacity>
+        <amenities>
+            <amenity>Free Wi-Fi</amenity>
+            <amenity>Air Conditioning</amenity>
+            <amenity>Smart TV</amenity>
+            <amenity>Electric Kettle</amenity>
+            <amenity>En-suite Bathroom</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+    <room>
+        <id>R002</id>
+        <name>Deluxe Room</name>
+        <type>DELUXE</type>
+        <description>An expansive sanctuary adorned with elegant furnishings, private balcony with scenic vistas, work desk, and dedicated climate control.</description>
+        <pricePerNight>2500.00</pricePerNight>
+        <capacity>2</capacity>
+        <amenities>
+            <amenity>Free Wi-Fi</amenity>
+            <amenity>King Bed</amenity>
+            <amenity>Private Balcony</amenity>
+            <amenity>Air Conditioning</amenity>
+            <amenity>Mini Fridge</amenity>
+            <amenity>Work Station</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+    <room>
+        <id>R003</id>
+        <name>Superior Room</name>
+        <type>SUPERIOR</type>
+        <description>Sophisticated comfort featuring handcrafted wooden decor, premium Italian linens, walk-in rain shower, and dedicated espresso bar.</description>
+        <pricePerNight>3200.00</pricePerNight>
+        <capacity>3</capacity>
+        <amenities>
+            <amenity>Free High-Speed Wi-Fi</amenity>
+            <amenity>Garden View</amenity>
+            <amenity>Rain Shower</amenity>
+            <amenity>Espresso Machine</amenity>
+            <amenity>Electronic Safe</amenity>
+            <amenity>Bathrobes</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+    <room>
+        <id>R004</id>
+        <name>Executive Suite</name>
+        <type>EXECUTIVE_SUITE</type>
+        <description>Opulent suite tailored for discerning travelers. Features a separate private living salon, master bedroom, deep soaking jacuzzi tub, and lounge privileges.</description>
+        <pricePerNight>4500.00</pricePerNight>
+        <capacity>4</capacity>
+        <amenities>
+            <amenity>Living Salon</amenity>
+            <amenity>Executive Lounge Access</amenity>
+            <amenity>Jacuzzi Bath</amenity>
+            <amenity>High-Speed Wi-Fi</amenity>
+            <amenity>Nespresso Bar</amenity>
+            <amenity>Sound System</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+    <room>
+        <id>R005</id>
+        <name>Family Suite</name>
+        <type>FAMILY_SUITE</type>
+        <description>Designed specifically for families and groups, featuring two interconnected bedrooms, kids entertainment zone, kitchenette, and dining table.</description>
+        <pricePerNight>5000.00</pricePerNight>
+        <capacity>5</capacity>
+        <amenities>
+            <amenity>Two Master Bedrooms</amenity>
+            <amenity>Kids Play Area</amenity>
+            <amenity>Kitchenette</amenity>
+            <amenity>2 Smart 4K TVs</amenity>
+            <amenity>Dining Area</amenity>
+            <amenity>2 Full Bathrooms</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1595576508898-0ad5c879a061?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+    <room>
+        <id>R006</id>
+        <name>Presidential Suite</name>
+        <type>PRESIDENTIAL_SUITE</type>
+        <description>The pinnacle of luxury hospitality. Top-floor panoramic views, private terrace with infinity plunge pool, 24/7 dedicated butler, and bespoke dining.</description>
+        <pricePerNight>8000.00</pricePerNight>
+        <capacity>6</capacity>
+        <amenities>
+            <amenity>Panoramic Penthouse Views</amenity>
+            <amenity>Private Butler Service</amenity>
+            <amenity>Private Plunge Pool</amenity>
+            <amenity>Terrace Dining</amenity>
+            <amenity>Master Whirlpool</amenity>
+            <amenity>Chauffeur Service</amenity>
+        </amenities>
+        <imageUrl>https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&amp;fit=crop&amp;w=1200&amp;q=80</imageUrl>
+        <active>true</active>
+    </room>
+</rooms>
